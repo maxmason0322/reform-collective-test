@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
-import "../../styles/fonts.css";
 
 import ButtonWithIcon from "../../components/Button";
 import Accordion from "../../components/Accordion/Accordion";
@@ -23,6 +22,7 @@ interface CareersProps {
 // Styled component definitions
 const CareersContainer = styled.div`
   background-color: ${colors.primary};
+  font-family: "PP Mori", "Inter";
 
   @media (min-width: 601px) and (max-width: 1024px) {
   }
@@ -65,7 +65,6 @@ const InfoContainerText = styled.div`
 
 const Title = styled.h1`
   color: ${colors.detailLight};
-  font-family: "PP Mori", "Inter";
   font-weight: 600;
   font-size: 3em;
   margin-bottom: 16px;
@@ -82,7 +81,6 @@ const Title = styled.h1`
 
 const Content = styled.p`
   color: ${colors.secondary};
-  font-family: "PP Mori", "Inter";
   font-size: 1em;
 
   @media (min-width: 601px) and (max-width: 1024px) {

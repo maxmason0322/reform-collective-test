@@ -1,4 +1,5 @@
 import { colors } from "./styles/colors";
+import "../src/styles/fonts.css";
 import Careers from "./pages/CareersPage/Careers";
 import { createGlobalStyle } from "styled-components";
 

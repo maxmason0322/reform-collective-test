@@ -15,9 +15,9 @@ const Button = styled.button`
   border: none;
   border-radius: 28px;
   cursor: pointer;
-  font-family: "PP Mori", "Inter";
   font-weight: 600;
   height: 48px;
+  font-family: "PP Mori", "Inter";
 `;
 
 const StyledIcon = styled(ButtonArrowIcon)`

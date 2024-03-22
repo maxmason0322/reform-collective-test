@@ -15,14 +15,15 @@ interface AccordionItemProps {
 
 // Styled component definitions
 const AccordionItemContainer = styled.div<{ isActive: boolean }>`
+  background-color: ${colors.secondary};
   display: flex;
   flex-direction: column;
   border-radius: 12px;
   justify-content: center;
   overflow: hidden;
   border: 1px solid ${colors.primary};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: ${({ isActive }) => (isActive ? colors.primary : colors.detailDark)};
+  font-family: "PP Mori", "Inter";
 `;
 
 const AccordionItemHeader = styled.div<{ isActive: boolean }>`
@@ -35,7 +36,6 @@ const AccordionItemHeader = styled.div<{ isActive: boolean }>`
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
-  transition: background-color 0.5s ease;
   color: ${({ isActive }) => (isActive ? colors.primary : colors.detailDark)};
 `;
 
@@ -46,15 +46,18 @@ const AccordionItemTitle = styled.h3`
 `;
 
 const AccordionItemContent = styled.p<{ isActive: boolean }>`
+  display: ${({ isActive }) => (isActive ? "block" : "none")};
   padding: 12px 45px;
   opacity: ${({ isActive }) => (isActive ? 1 : 0)};
   height: ${({ isActive }) => (isActive ? "auto" : "0")};
   transform: ${({ isActive }) => (isActive ? "scaleY(1)" : "scaleY(0)")};
-  transition: opacity 0.5s ease, transform 0.5s ease;
   overflow: hidden;
   background-color: ${colors.secondary};
   margin: 0;
   font-size: 1em;
+  white-space: pre-wrap;
+  padding-bottom: 5%;
+  max-width: 70%;
 `;
 
 const AccordionItemIcon = styled.div`

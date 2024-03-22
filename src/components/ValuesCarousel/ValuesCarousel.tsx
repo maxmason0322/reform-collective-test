@@ -58,6 +58,7 @@ const CardContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  whitespace: pre-wrap;
 `;
 
 const CardTitle = styled.h1`
@@ -69,6 +70,7 @@ const CardTitle = styled.h1`
 const CardDescription = styled.p`
   font-size: 15px;
   margin-top: 20px;
+  white-space: pre-wrap;
 `;
 
 const PaginationIndicators = styled.div`
@@ -84,7 +86,7 @@ const PaginationIndicators = styled.div`
 const PaginationDot = styled.button`
   width: 12px;
   height: 12px;
-  border-radius: 50%;
+  border-radius: 100%;
   background-color: ${colors.secondary};
   border: none;
   margin: 0 6px;
