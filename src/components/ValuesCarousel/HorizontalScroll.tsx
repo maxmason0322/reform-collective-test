@@ -171,27 +171,54 @@ const CardDescription = styled.p`
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    if (carouselRef.current) {
-      const carousel = carouselRef.current;
+    const carousel = carouselRef.current;
+    const cards = cardsRef.current;
+
+    if (carousel && cards.length > 0) {
+      const onDrag = () => {
+        const progress = -carousel.getBoundingClientRect().left / 300;
+        const newIndex = Math.round(progress);
+
+        if (newIndex !== activeIndex) {
+          setActiveIndex(newIndex);
+          animateCards(cards, newIndex);
+        }
+      };
 
       Draggable.create(carousel, {
         type: 'x',
         bounds: { minX: -(items.length - 1) * 300, maxX: 0 },
-        onDrag: () => {
-          const progress = -carousel.getBoundingClientRect().left / 300;
-          setActiveIndex(Math.round(progress));
-        },
+        onDrag,
       });
+
+      animateCards(cards, activeIndex);
     }
-  }, [items]);
+  }, [items, activeIndex]);
+
+  const animateCards = (cards: HTMLDivElement[], index: number) => {
+    const offset = index * 300;
+
+    gsap.to(cards, {
+      duration: 0.5,
+      x: (i) => (i - index) * 300 - offset,
+      scale: (i) => (i === index ? 1 : 0.8),
+      opacity: (i) => (i === index ? 1 : 0.6),
+      ease: 'power2.out',
+      stagger: 0.1,
+    });
+  };
 
   return (
     <CarouselContainer>
       <CarouselItems ref={carouselRef}>
         {items.map((item, index) => (
-          <Card key={index}>
+          <Card
+            key={index}
+            ref={(el) => (cardsRef.current[index] = el as HTMLDivElement)}
+          >
             <CardImage src={item.image} alt={item.title} />
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
