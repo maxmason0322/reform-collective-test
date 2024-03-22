@@ -41,6 +41,8 @@ const HorizontalScroll: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -76,9 +78,25 @@ const HorizontalScroll: React.FC = () => {
     }
   }, [isMobile]);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setStartX(e.touches[0].clientX - contentRef.current!.offsetLeft);
+    setScrollLeft(contentRef.current!.scrollLeft);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
+    const x = e.touches[0].clientX - contentRef.current!.offsetLeft;
+    const walk = (x - startX) * 2;
+    contentRef.current!.scrollLeft = scrollLeft - walk;
+  };
+
   return (
     <HorizontalScrollSection ref={sectionRef}>
-      <HorizontalScrollContent ref={contentRef}>
+      <HorizontalScrollContent
+        ref={contentRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+      >
         <Content>
           {/* Content 1 */}
           <h1>Content 1</h1>
