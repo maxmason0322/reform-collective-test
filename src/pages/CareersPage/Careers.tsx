@@ -97,33 +97,9 @@ const items = [
 ];
 
 const carouselItems = [
-  {
-    id: 1,
-    content: (
-      <div>
-        <h3>Card 1</h3>
-        <p>Content for card 1</p>
-      </div>
-    ),
-  },
-  {
-    id: 2,
-    content: (
-      <div>
-        <h3>Card 2</h3>
-        <p>Content for card 2</p>
-      </div>
-    ),
-  },
-  {
-    id: 3,
-    content: (
-      <div>
-        <h3>Card 3</h3>
-        <p>Content for card 3</p>
-      </div>
-    ),
-  },
+  { id: 1, content: 'Card 1' },
+  { id: 2, content: 'Card 2' },
+  { id: 3, content: 'Card 3' },
   // Add more items as needed
 ];
 

@@ -293,6 +293,7 @@ interface CarouselProps {
 const CarouselContainer = styled.div`
   position: relative;
   width: 100%;
+  height: 400px;
   overflow: hidden;
 `;
 
@@ -306,8 +307,8 @@ const CarouselItems = styled.div`
 
 const Card = styled.div<{ isActive: boolean }>`
   position: absolute;
-  width: 80%;
-  height: 80%;
+  width: 300px;
+  height: 200px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -317,6 +318,10 @@ const Card = styled.div<{ isActive: boolean }>`
   transition: opacity 0.3s, transform 0.3s;
   z-index: ${(props) => (props.isActive ? 1 : 0)};
   pointer-events: ${(props) => (props.isActive ? 'auto' : 'none')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
 `;
 
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
