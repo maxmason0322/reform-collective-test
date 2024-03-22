@@ -116,58 +116,58 @@
 
 // export default HorizontalScroll;
 
-import React, { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import { gsap } from 'gsap';
-import { Draggable } from 'gsap/Draggable';
-import { useSwipeable } from 'react-swipeable';
+// import React, { useState, useRef, useEffect } from 'react';
+// import styled from 'styled-components';
+// import { gsap } from 'gsap';
+// import { Draggable } from 'gsap/Draggable';
+// import { useSwipeable } from 'react-swipeable';
 
-gsap.registerPlugin(Draggable);
+// gsap.registerPlugin(Draggable);
 
-interface CarouselProps {
-  items: {
-    title: string;
-    description: string;
-    image: string;
-  }[];
-}
+// interface CarouselProps {
+//   items: {
+//     title: string;
+//     description: string;
+//     image: string;
+//   }[];
+// }
 
-const CarouselContainer = styled.div`
-  overflow: hidden;
-  width: 100%;
-`;
+// const CarouselContainer = styled.div`
+//   overflow: hidden;
+//   width: 100%;
+// `;
 
-const CarouselItems = styled.div`
-  display: flex;
-  transition: transform 0.3s ease-in-out;
-`;
+// const CarouselItems = styled.div`
+//   display: flex;
+//   transition: transform 0.3s ease-in-out;
+// `;
 
-const Card = styled.div`
-  flex: 0 0 300px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-right: 16px;
-  padding: 16px;
-`;
+// const Card = styled.div`
+//   flex: 0 0 300px;
+//   background-color: #fff;
+//   border-radius: 8px;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//   margin-right: 16px;
+//   padding: 16px;
+// `;
 
-const CardImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 16px;
-`;
+// const CardImage = styled.img`
+//   width: 100%;
+//   height: 200px;
+//   object-fit: cover;
+//   border-radius: 8px;
+//   margin-bottom: 16px;
+// `;
 
-const CardTitle = styled.h3`
-  font-size: 18px;
-  margin-bottom: 8px;
-`;
+// const CardTitle = styled.h3`
+//   font-size: 18px;
+//   margin-bottom: 8px;
+// `;
 
-const CardDescription = styled.p`
-  font-size: 14px;
-  color: #666;
-`;
+// const CardDescription = styled.p`
+//   font-size: 14px;
+//   color: #666;
+// `;
 
 // const Carousel: React.FC<CarouselProps> = ({ items }) => {
 //   const [activeIndex, setActiveIndex] = useState(0);
@@ -232,44 +232,122 @@ const CardDescription = styled.p`
 
 // export default Carousel;
 
+// const Carousel: React.FC<CarouselProps> = ({ items }) => {
+//   const [activeIndex, setActiveIndex] = useState(0);
+//   const [translateX, setTranslateX] = useState(0);
+//   const carouselRef = useRef<HTMLDivElement>(null);
+
+//   const handleSwipe = (deltaX: number) => {
+//     const cardWidth = 300;
+//     const maxTranslate = (items.length - 1) * cardWidth;
+//     const newTranslateX = Math.min(Math.max(translateX - deltaX, -maxTranslate), 0);
+//     setTranslateX(newTranslateX);
+//   };
+
+//   const handlers = useSwipeable({
+//     onSwiping: (eventData) => handleSwipe(eventData.deltaX),
+//     onSwiped: () => {
+//       const cardWidth = 300;
+//       const newIndex = Math.round(-translateX / cardWidth);
+//       setActiveIndex(newIndex);
+//       setTranslateX(-newIndex * cardWidth);
+//     },
+//     trackMouse: true,
+//   });
+
+//   useEffect(() => {
+//     setTranslateX(-activeIndex * 300);
+//   }, [activeIndex]);
+
+//   return (
+//     <CarouselContainer {...handlers}>
+//       <CarouselItems
+//         ref={carouselRef}
+//         style={{ transform: `translateX(${translateX}px)` }}
+//       >
+//         {items.map((item, index) => (
+//           <Card key={index}>
+//             <CardImage src={item.image} alt={item.title} />
+//             <CardTitle>{item.title}</CardTitle>
+//             <CardDescription>{item.description}</CardDescription>
+//           </Card>
+//         ))}
+//       </CarouselItems>
+//     </CarouselContainer>
+//   );
+// };
+
+// export default Carousel;
+
+import React, { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { gsap } from 'gsap';
+
+interface CarouselProps {
+  items: {
+    id: number;
+    content: React.ReactNode;
+  }[];
+}
+
+const CarouselContainer = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+`;
+
+const CarouselItems = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Card = styled.div<{ isActive: boolean }>`
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: ${(props) => (props.isActive ? 1 : 0.6)};
+  transform: ${(props) =>
+    props.isActive ? 'scale(1)' : 'scale(0.8) translateX(-50%)'};
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: ${(props) => (props.isActive ? 1 : 0)};
+  pointer-events: ${(props) => (props.isActive ? 'auto' : 'none')};
+`;
+
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [translateX, setTranslateX] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  const handleSwipe = (deltaX: number) => {
-    const cardWidth = 300;
-    const maxTranslate = (items.length - 1) * cardWidth;
-    const newTranslateX = Math.min(Math.max(translateX - deltaX, -maxTranslate), 0);
-    setTranslateX(newTranslateX);
-  };
-
-  const handlers = useSwipeable({
-    onSwiping: (eventData) => handleSwipe(eventData.deltaX),
-    onSwiped: () => {
-      const cardWidth = 300;
-      const newIndex = Math.round(-translateX / cardWidth);
-      setActiveIndex(newIndex);
-      setTranslateX(-newIndex * cardWidth);
-    },
-    trackMouse: true,
-  });
+  const cardsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    setTranslateX(-activeIndex * 300);
+    const activeCard = cardsRef.current[activeIndex];
+    const prevCard = cardsRef.current[activeIndex - 1];
+    const nextCard = cardsRef.current[activeIndex + 1];
+
+    gsap.to(activeCard, { scale: 1, opacity: 1, x: 0 });
+    gsap.to(prevCard, { scale: 0.8, opacity: 0.6, x: '-50%' });
+    gsap.to(nextCard, { scale: 0.8, opacity: 0.6, x: '50%' });
   }, [activeIndex]);
 
+  const handleCardClick = (index: number) => {
+    setActiveIndex(index);
+  };
+
   return (
-    <CarouselContainer {...handlers}>
-      <CarouselItems
-        ref={carouselRef}
-        style={{ transform: `translateX(${translateX}px)` }}
-      >
+    <CarouselContainer>
+      <CarouselItems>
         {items.map((item, index) => (
-          <Card key={index}>
-            <CardImage src={item.image} alt={item.title} />
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+          <Card
+            key={item.id}
+            ref={(el) => (cardsRef.current[index] = el as HTMLDivElement)}
+            isActive={index === activeIndex}
+            onClick={() => handleCardClick(index)}
+          >
+            {item.content}
           </Card>
         ))}
       </CarouselItems>

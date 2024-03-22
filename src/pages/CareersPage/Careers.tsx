@@ -96,6 +96,37 @@ const items = [
   },
 ];
 
+const carouselItems = [
+  {
+    id: 1,
+    content: (
+      <div>
+        <h3>Card 1</h3>
+        <p>Content for card 1</p>
+      </div>
+    ),
+  },
+  {
+    id: 2,
+    content: (
+      <div>
+        <h3>Card 2</h3>
+        <p>Content for card 2</p>
+      </div>
+    ),
+  },
+  {
+    id: 3,
+    content: (
+      <div>
+        <h3>Card 3</h3>
+        <p>Content for card 3</p>
+      </div>
+    ),
+  },
+  // Add more items as needed
+];
+
 const Careers: React.FC<CareersProps> = ({ title, content }) => {
   return (
     <CareersContainer>
@@ -108,7 +139,7 @@ const Careers: React.FC<CareersProps> = ({ title, content }) => {
         <ButtonWithIcon />
       </InfoContainer>
       {/* <ValuesCarousel cards={cards} /> */}
-      <HorizontalScroll items={items}/>
+      <HorizontalScroll items={carouselItems}/>
     </CareersContainer>
   );
 };
