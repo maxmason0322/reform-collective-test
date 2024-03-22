@@ -34,12 +34,11 @@ const Card = styled.div.attrs({ tabIndex: 0 })`
   height: 530px;
   background-color: ${colors.secondary};
   border-radius: 20px;
-  opacity: 0.6;
-  transform: scale(0.8) translateX(-125%);
+  transform: scale(0.8) translateX(-200%);
   transition: transform 0.3s;
   z-index: 0;
   pointer-events: none;
-  font-size: 15px;
+  font-size: 1em;
   color: ${colors.primary};
   font-family: "PP Mori", "Inter";
 
@@ -111,10 +110,10 @@ const ValuesCarousel: React.FC<ValuesCarouselProps> = ({ items }) => {
       gsap.to(activeCard, { scale: 1, opacity: 1, x: 0 });
     }
     if (prevCard) {
-      gsap.to(prevCard, { scale: 0.8, x: "-100%" });
+      gsap.to(prevCard, { scale: 0.8, opacity: 0.5, x: "-150%" });
     }
     if (nextCard) {
-      gsap.to(nextCard, { scale: 0.8, x: "100%" });
+      gsap.to(nextCard, { scale: 0.8, x: "150%" });
     }
   }, [activeIndex]);
 
