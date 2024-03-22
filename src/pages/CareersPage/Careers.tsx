@@ -78,6 +78,12 @@ const cards = [
   },
 ];
 
+const items = [
+  <div>Item 1</div>,
+  <div>Item 2</div>,
+  <div>Item 3</div>,
+];
+
 const Careers: React.FC<CareersProps> = ({ title, content }) => {
   return (
     <CareersContainer>
@@ -90,7 +96,7 @@ const Careers: React.FC<CareersProps> = ({ title, content }) => {
         <ButtonWithIcon />
       </InfoContainer>
       {/* <ValuesCarousel cards={cards} /> */}
-      <HorizontalScroll />
+      <HorizontalScroll items={items}/>
     </CareersContainer>
   );
 };
