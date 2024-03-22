@@ -234,35 +234,37 @@ const CardDescription = styled.p`
 
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const handleSwipe = (deltaX: number) => {
-    const carousel = carouselRef.current;
-    if (carousel) {
-      const cardWidth = 300;
-      const maxScroll = (items.length - 1) * cardWidth;
-      const newScroll = Math.min(Math.max(carousel.scrollLeft - deltaX, 0), maxScroll);
-      carousel.scrollTo({ left: newScroll, behavior: 'smooth' });
-    }
+    const cardWidth = 300;
+    const maxTranslate = (items.length - 1) * cardWidth;
+    const newTranslateX = Math.min(Math.max(translateX - deltaX, -maxTranslate), 0);
+    setTranslateX(newTranslateX);
   };
 
   const handlers = useSwipeable({
-    onSwiped: (eventData) => handleSwipe(eventData.deltaX),
+    onSwiping: (eventData) => handleSwipe(eventData.deltaX),
+    onSwiped: () => {
+      const cardWidth = 300;
+      const newIndex = Math.round(-translateX / cardWidth);
+      setActiveIndex(newIndex);
+      setTranslateX(-newIndex * cardWidth);
+    },
     trackMouse: true,
   });
 
   useEffect(() => {
-    const carousel = carouselRef.current;
-    if (carousel) {
-      const cardWidth = 300;
-      const newIndex = Math.round(carousel.scrollLeft / cardWidth);
-      setActiveIndex(newIndex);
-    }
-  }, []);
+    setTranslateX(-activeIndex * 300);
+  }, [activeIndex]);
 
   return (
     <CarouselContainer {...handlers}>
-      <CarouselItems ref={carouselRef}>
+      <CarouselItems
+        ref={carouselRef}
+        style={{ transform: `translateX(${translateX}px)` }}
+      >
         {items.map((item, index) => (
           <Card key={index}>
             <CardImage src={item.image} alt={item.title} />
