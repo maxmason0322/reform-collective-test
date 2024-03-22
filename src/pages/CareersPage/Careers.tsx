@@ -7,6 +7,8 @@ import '../../styles/fonts.css';
 import Accordion from "../../components/Accordion/Accordion";
 import PeopleCarousel from "../../components/PeopleCarousel/PeopleCarousel";
 import ValuesCarousel from "../../components/ValuesCarousel/ValuesCarousel";
+import { ReactComponent as TrustIcon } from "../../assets/icons/trust.svg";
+import HorizontalScroll from "../../components/ValuesCarousel/HorizontalScroll";
 
 interface CareersProps {
   title: string;
@@ -14,7 +16,6 @@ interface CareersProps {
 }
 
 const CareersContainer = styled.div`
-  display: flex;
   background-color: ${colors.primary};
 
   @media (min-width: 601px) and (max-width: 1024px) {
@@ -53,6 +54,30 @@ const Content = styled.p`
   font-size: 15px;
 `;
 
+const cards = [
+  {
+    id: 1,
+    title: "Trust by Default",
+    icon: <TrustIcon />,
+    content:
+      "We want people to enjoy working at Runway, and we want to move fast. Trust by default helps us do both, because people can own their outcomes, and we aren't blocked on reviews and decisions.However, if we take that trust for granted and consistently don't meet our commitments, avoid difficult conversations, and fail to listen to opposing points of view, we damage our ability to trust globally. This will slow us down and make Runway a less fulfilling place to work.",
+  },
+  {
+    id: 2,
+    title: "Trust by Default",
+    icon: <TrustIcon />,
+    content:
+      "We want people to enjoy working at Runway, and we want to move fast. Trust by default helps us do both, because people can own their outcomes, and we aren't blocked on reviews and decisions.However, if we take that trust for granted and consistently don't meet our commitments, avoid difficult conversations, and fail to listen to opposing points of view, we damage our ability to trust globally. This will slow us down and make Runway a less fulfilling place to work.",
+  },
+  {
+    id: 3,
+    title: "Trust by Default",
+    icon: <TrustIcon />,
+    content:
+      "We want people to enjoy working at Runway, and we want to move fast. Trust by default helps us do both, because people can own their outcomes, and we aren't blocked on reviews and decisions.However, if we take that trust for granted and consistently don't meet our commitments, avoid difficult conversations, and fail to listen to opposing points of view, we damage our ability to trust globally. This will slow us down and make Runway a less fulfilling place to work.",
+  },
+];
+
 const Careers: React.FC<CareersProps> = ({ title, content }) => {
   return (
     <CareersContainer>
@@ -64,6 +89,8 @@ const Careers: React.FC<CareersProps> = ({ title, content }) => {
         </InfoContainerText>
         <ButtonWithIcon />
       </InfoContainer>
+      {/* <ValuesCarousel cards={cards} /> */}
+      <HorizontalScroll />
     </CareersContainer>
   );
 };
