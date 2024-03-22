@@ -79,9 +79,21 @@ const cards = [
 ];
 
 const items = [
-  <div>Item 1</div>,
-  <div>Item 2</div>,
-  <div>Item 3</div>,
+  {
+    title: 'Card 1',
+    description: 'This is the description of Card 1.',
+    image: 'https://example.com/image1.jpg',
+  },
+  {
+    title: 'Card 2',
+    description: 'This is the description of Card 2.',
+    image: 'https://example.com/image2.jpg',
+  },
+  {
+    title: 'Card 3',
+    description: 'This is the description of Card 3.',
+    image: 'https://example.com/image3.jpg',
+  },
 ];
 
 const Careers: React.FC<CareersProps> = ({ title, content }) => {

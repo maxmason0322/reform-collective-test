@@ -124,7 +124,11 @@ import { Draggable } from 'gsap/Draggable';
 gsap.registerPlugin(Draggable);
 
 interface CarouselProps {
-  items: React.ReactNode[];
+  items: {
+    title: string;
+    description: string;
+    image: string;
+  }[];
 }
 
 const CarouselContainer = styled.div`
@@ -137,6 +141,33 @@ const CarouselItems = styled.div`
   transition: transform 0.3s ease-in-out;
 `;
 
+const Card = styled.div`
+  flex: 0 0 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 16px;
+  padding: 16px;
+`;
+
+const CardImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 16px;
+`;
+
+const CardTitle = styled.h3`
+  font-size: 18px;
+  margin-bottom: 8px;
+`;
+
+const CardDescription = styled.p`
+  font-size: 14px;
+  color: #666;
+`;
+
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -147,9 +178,9 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
 
       Draggable.create(carousel, {
         type: 'x',
-        bounds: { minX: -(items.length - 1) * carousel.offsetWidth, maxX: 0 },
+        bounds: { minX: -(items.length - 1) * 300, maxX: 0 },
         onDrag: () => {
-          const progress = -carousel.getBoundingClientRect().left / carousel.offsetWidth;
+          const progress = -carousel.getBoundingClientRect().left / 300;
           setActiveIndex(Math.round(progress));
         },
       });
@@ -160,7 +191,11 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
     <CarouselContainer>
       <CarouselItems ref={carouselRef}>
         {items.map((item, index) => (
-          <div key={index}>{item}</div>
+          <Card key={index}>
+            <CardImage src={item.image} alt={item.title} />
+            <CardTitle>{item.title}</CardTitle>
+            <CardDescription>{item.description}</CardDescription>
+          </Card>
         ))}
       </CarouselItems>
     </CarouselContainer>
