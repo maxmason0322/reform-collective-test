@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { colors } from "../../styles/colors";
 import { gsap } from "gsap";
+
 import profileImage1 from "../../assets/images/profile-image-small1.png";
 import profileImage2 from "../../assets/images/profile-image-small2.png";
-import { colors } from "../../styles/colors";
-import RightArrowIcon from '../../assets/icons/RightArrowIcon';
-import LeftArrowIcon from '../../assets/icons/LeftArrowIcon';
+import RightArrowIcon from "../../assets/icons/RightArrowIcon";
+import LeftArrowIcon from "../../assets/icons/LeftArrowIcon";
 
 interface Person {
   id: number;
@@ -15,98 +16,14 @@ interface Person {
   description: string;
 }
 
-const CarouselItem = ({ person }: { person: Person }) => (
-    <CarouselItemWrapper>
-      <CarouselItemImage src={person.image} alt={person.name} />
-      <div>
-        <CarouselItemPosition>{person.subtitle}</CarouselItemPosition>
-        <CarouselItemName>{person.name}</CarouselItemName>
-        <CarouselItemDescription>{person.description}</CarouselItemDescription>
-      </div>
-    </CarouselItemWrapper>
-);
-
-const Carousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const people: Person[] = [
-    {
-      id: 1,
-      image: profileImage1,
-      subtitle: "FOUNDING DESIGNER",
-      name: "Wells Riley",
-      description:
-        "“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl vel dolor blandit fringilla. Integer eget ante et nulla consectetur pellentesque. Integer maximus porttitor justo vitae malesuada. Nullam euismod, quam ut dictum ultrices, velit lacus hendrerit justo, sit amet vehicula orci arcu eget massa.”",
-    },
-    {
-      id: 2,
-      image: profileImage1,
-      subtitle: "FOUNDING DESIGNER",
-      name: "Wells Riley",
-      description:
-        "“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl vel dolor blandit fringilla. Integer eget ante et nulla consectetur pellentesque. Integer maximus porttitor justo vitae malesuada. Nullam euismod, quam ut dictum ultrices, velit lacus hendrerit justo, sit amet vehicula orci arcu eget massa.”",
-    },
-    {
-      id: 3,
-      image: profileImage2,
-      subtitle: "FOUNDING DESIGNER",
-      name: "Alec Douglas",
-      description:
-        "“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl vel dolor blandit fringilla. Integer eget ante et nulla consectetur pellentesque. Integer maximus porttitor justo vitae malesuada. Nullam euismod, quam ut dictum ultrices, velit lacus hendrerit justo, sit amet vehicula orci arcu eget massa.”",
-    },
-  ];
-
-  const isFirstPerson = currentIndex === 0;
-  const isLastPerson = currentIndex === people.length - 1;
-
-  const handlePrev = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (!isFirstPerson) {
-      const newIndex = currentIndex - 1;
-      gsap.to('.carousel-item', { x: '100%', opacity: 0, duration: 0.5 });
-      setTimeout(() => {
-        setCurrentIndex(newIndex);
-        gsap.fromTo('.carousel-item', { x: '-100%', opacity: 0 }, { x: '0', opacity: 1, duration: 0.5 });
-      }, 500);
-    }
-  };
-  
-  const handleNext = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (!isLastPerson) {
-      const newIndex = currentIndex + 1;
-      gsap.to('.carousel-item', { x: '-100%', opacity: 0, duration: 0.5 });
-      setTimeout(() => {
-        setCurrentIndex(newIndex);
-        gsap.fromTo('.carousel-item', { x: '100%', opacity: 0 }, { x: '0', opacity: 1, duration: 0.5 });
-      }, 500);
-    }
-  };
-
-  return (
-    <CarouselContainer>
-      <CarouselTitle>Great People</CarouselTitle>
-      <div className="carousel-item">
-        <CarouselItem person={people[currentIndex]}/>
-      </div>
-      <NavigationWrapper>
-        <IconButton onClick={(event) => handlePrev(event)} disabled={isFirstPerson}>
-          <LeftArrowIcon disabled={isFirstPerson}/>
-        </IconButton>
-        <IconButton onClick={(event) => handleNext(event)} disabled={isLastPerson}>
-          <RightArrowIcon disabled={isLastPerson}/>
-        </IconButton>
-      </NavigationWrapper>
-    </CarouselContainer>
-  );
-};
-
+// Styled component definitions
 const IconButton = styled.button`
   background: none;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
   outline: none;
-  color: ${({ disabled }) => (disabled ? colors.detailDark : colors.detailLight)};
+  color: ${({ disabled }) =>
+    disabled ? colors.detailDark : colors.detailLight};
   transition: color 0.3s;
 `;
 
@@ -116,7 +33,7 @@ const CarouselTitle = styled.h1`
 
   @media (min-width: 601px) and (max-width: 1024px) {
     font-size: 4em;
-    position: absolute; 
+    position: absolute;
     margin: 5% auto;
     left: 5%;
   }
@@ -153,7 +70,7 @@ const CarouselItemWrapper = styled.div`
   flex: 0 0 100%;
 
   @media (min-width: 601px) {
-    flex-direction: row;   
+    flex-direction: row;
     align-items: flex-start;
     text-align: left;
     flex: 0 0 auto;
@@ -206,5 +123,106 @@ const NavigationWrapper = styled.div`
     right: 5%;
   }
 `;
+
+const CarouselItem = ({ person }: { person: Person }) => (
+  <CarouselItemWrapper>
+    <CarouselItemImage src={person.image} alt={person.name} />
+    <div>
+      <CarouselItemPosition>{person.subtitle}</CarouselItemPosition>
+      <CarouselItemName>{person.name}</CarouselItemName>
+      <CarouselItemDescription>{person.description}</CarouselItemDescription>
+    </div>
+  </CarouselItemWrapper>
+);
+
+const Carousel = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Array of people to display in the carousel
+  const people: Person[] = [
+    {
+      id: 1,
+      image: profileImage1,
+      subtitle: "FOUNDING DESIGNER",
+      name: "Wells Riley",
+      description:
+        "“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl vel dolor blandit fringilla. Integer eget ante et nulla consectetur pellentesque. Integer maximus porttitor justo vitae malesuada. Nullam euismod, quam ut dictum ultrices, velit lacus hendrerit justo, sit amet vehicula orci arcu eget massa.”",
+    },
+    {
+      id: 2,
+      image: profileImage1,
+      subtitle: "FOUNDING DESIGNER",
+      name: "Wells Riley",
+      description:
+        "“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl vel dolor blandit fringilla. Integer eget ante et nulla consectetur pellentesque. Integer maximus porttitor justo vitae malesuada. Nullam euismod, quam ut dictum ultrices, velit lacus hendrerit justo, sit amet vehicula orci arcu eget massa.”",
+    },
+    {
+      id: 3,
+      image: profileImage2,
+      subtitle: "FOUNDING DESIGNER",
+      name: "Alec Douglas",
+      description:
+        "“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl vel dolor blandit fringilla. Integer eget ante et nulla consectetur pellentesque. Integer maximus porttitor justo vitae malesuada. Nullam euismod, quam ut dictum ultrices, velit lacus hendrerit justo, sit amet vehicula orci arcu eget massa.”",
+    },
+  ];
+
+  const isFirstPerson = currentIndex === 0;
+  const isLastPerson = currentIndex === people.length - 1;
+
+  const handlePrev = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!isFirstPerson) {
+      const newIndex = currentIndex - 1;
+      gsap.to(".carousel-item", { x: "100%", opacity: 0, duration: 0.5 });
+      setTimeout(() => {
+        setCurrentIndex(newIndex);
+        gsap.fromTo(
+          ".carousel-item",
+          { x: "-100%", opacity: 0 },
+          { x: "0", opacity: 1, duration: 0.5 }
+        );
+      }, 500);
+    }
+  };
+
+  const handleNext = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!isLastPerson) {
+      const newIndex = currentIndex + 1;
+      gsap.to(".carousel-item", { x: "-100%", opacity: 0, duration: 0.5 });
+      setTimeout(() => {
+        setCurrentIndex(newIndex);
+        gsap.fromTo(
+          ".carousel-item",
+          { x: "100%", opacity: 0 },
+          { x: "0", opacity: 1, duration: 0.5 }
+        );
+      }, 500);
+    }
+  };
+
+  return (
+    <CarouselContainer>
+      <CarouselTitle>Great People</CarouselTitle>
+      <div className="carousel-item">
+        <CarouselItem person={people[currentIndex]} />
+      </div>
+      <NavigationWrapper>
+        <IconButton
+          onClick={(event) => handlePrev(event)}
+          disabled={isFirstPerson}
+        >
+          <LeftArrowIcon disabled={isFirstPerson} />
+        </IconButton>
+        <IconButton
+          onClick={(event) => handleNext(event)}
+          disabled={isLastPerson}
+        >
+          <RightArrowIcon disabled={isLastPerson} />
+        </IconButton>
+      </NavigationWrapper>
+    </CarouselContainer>
+  );
+};
 
 export default Carousel;

@@ -1,8 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { colors } from '../styles/colors';
-import { ReactComponent as ButtonArrowIcon } from '../assets/icons/button-arrow.svg';
+import React from "react";
+import styled from "styled-components";
+import { colors } from "../styles/colors";
 
+import { ReactComponent as ButtonArrowIcon } from "../assets/icons/button-arrow.svg";
+
+// Styled component definitions
 const Button = styled.button`
   display: inline-flex;
   align-items: center;
@@ -13,7 +15,7 @@ const Button = styled.button`
   border: none;
   border-radius: 28px;
   cursor: pointer;
-  font-family: 'PP Mori', 'Inter';
+  font-family: "PP Mori", "Inter";
   font-weight: 600;
   height: 48px;
 `;
@@ -29,6 +31,6 @@ const ButtonWithIcon: React.FC = () => (
     <span>See open roles</span>
     <StyledIcon />
   </Button>
-)
+);
 
 export default ButtonWithIcon;

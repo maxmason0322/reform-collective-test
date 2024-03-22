@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import AccordionItem from './AccordionItem';
-import { colors } from '../../styles/colors';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { colors } from "../../styles/colors";
+
+import AccordionItem from "./AccordionItem";
 
 interface AccordionProps {
-  items: { id: number; title: string; icon: React.ReactNode; content: string }[];
+  items: {
+    id: number;
+    title: string;
+    icon: React.ReactNode;
+    content: string;
+  }[];
 }
 
+// Styled component definition
 const AccordionContainer = styled.div`
   width: 90%;
   margin: 0 auto;
