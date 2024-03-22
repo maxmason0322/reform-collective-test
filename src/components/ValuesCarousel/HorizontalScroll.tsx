@@ -305,23 +305,30 @@ const CarouselItems = styled.div`
   height: 100%;
 `;
 
-const Card = styled.div<{ isActive: boolean }>`
+const Card = styled.div.attrs({ tabIndex: 0 })`
   position: absolute;
   width: 300px;
   height: 200px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  opacity: ${(props) => (props.isActive ? 1 : 0.6)};
-  transform: ${(props) =>
-    props.isActive ? 'scale(1)' : 'scale(0.8) translateX(-50%)'};
+  opacity: 0.6;
+  transform: scale(0.8) translateX(-50%);
   transition: opacity 0.3s, transform 0.3s;
-  z-index: ${(props) => (props.isActive ? 1 : 0)};
-  pointer-events: ${(props) => (props.isActive ? 'auto' : 'none')};
+  z-index: 0;
+  pointer-events: none;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
+
+  &.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 1;
+    pointer-events: auto;
+    outline: none;
+  }
 `;
 
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
@@ -333,13 +340,25 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
     const prevCard = cardsRef.current[activeIndex - 1];
     const nextCard = cardsRef.current[activeIndex + 1];
 
-    gsap.to(activeCard, { scale: 1, opacity: 1, x: 0 });
-    gsap.to(prevCard, { scale: 0.8, opacity: 0.6, x: '-50%' });
-    gsap.to(nextCard, { scale: 0.8, opacity: 0.6, x: '50%' });
+    if (activeCard) {
+      gsap.to(activeCard, { scale: 1, opacity: 1, x: 0 });
+    }
+    if (prevCard) {
+      gsap.to(prevCard, { scale: 0.8, opacity: 0.6, x: '-50%' });
+    }
+    if (nextCard) {
+      gsap.to(nextCard, { scale: 0.8, opacity: 0.6, x: '50%' });
+    }
   }, [activeIndex]);
 
   const handleCardClick = (index: number) => {
     setActiveIndex(index);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent, index: number) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      setActiveIndex(index);
+    }
   };
 
   return (
@@ -349,8 +368,9 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
           <Card
             key={item.id}
             ref={(el) => (cardsRef.current[index] = el as HTMLDivElement)}
-            isActive={index === activeIndex}
+            className={index === activeIndex ? 'active' : ''}
             onClick={() => handleCardClick(index)}
+            onKeyPress={(event) => handleKeyPress(event, index)}
           >
             {item.content}
           </Card>
