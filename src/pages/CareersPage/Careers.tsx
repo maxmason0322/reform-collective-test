@@ -6,7 +6,6 @@ import ButtonWithIcon from "../../components/Button";
 import "../../styles/fonts.css";
 import Accordion from "../../components/Accordion/Accordion";
 import PeopleCarousel from "../../components/PeopleCarousel/PeopleCarousel";
-import ValuesCarousel from "../../components/ValuesCarousel/ValuesCarousel";
 import { ReactComponent as TrustIcon } from "../../assets/icons/trust.svg";
 import { ReactComponent as AccelerateIcon } from "../../assets/icons/accelerate.svg";
 import { ReactComponent as MagicIcon } from "../../assets/icons/magic.svg";
@@ -165,7 +164,6 @@ const Careers: React.FC<CareersProps> = ({ title, content }) => {
           </InfoContainerText>
           <ButtonWithIcon />
         </InfoContainer>
-        {/* <ValuesCarousel cards={cards} /> */}
         {screenWidth > 600 ? (
           <Accordion items={carouselItems} />
         ) : (
@@ -174,7 +172,6 @@ const Careers: React.FC<CareersProps> = ({ title, content }) => {
       </CareersContainer>
       <PeopleCarousel />
     </>
-    
   );
 };
 
