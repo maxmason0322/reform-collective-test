@@ -20,15 +20,10 @@ const HorizontalScrollContent = styled.div`
   display: flex;
   width: 300vw;
   height: 100%;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
 
   @media (min-width: 768px) {
     width: 100%;
     flex-wrap: wrap;
-    overflow-x: visible;
-    scroll-snap-type: none;
   }
 `;
 
@@ -36,11 +31,9 @@ const Content = styled.div`
   flex: 0 0 100vw;
   padding: 20px;
   box-sizing: border-box;
-  scroll-snap-align: start;
 
   @media (min-width: 768px) {
     flex: 0 0 33.33%;
-    scroll-snap-align: none;
   }
 `;
 
@@ -49,8 +42,7 @@ const HorizontalScroll: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [startX, setStartX] = useState(0);
-  const [startY, setStartY] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,29 +55,39 @@ const HorizontalScroll: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    const content = contentRef.current;
+
+    if (section && content && isMobile) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+        },
+      });
+
+      tl.to(content, {
+        x: () => section.offsetWidth - content.offsetWidth,
+        ease: 'none',
+      });
+    }
+  }, [isMobile]);
+
   const handleTouchStart = (e: React.TouchEvent) => {
-    setStartX(e.touches[0].clientX);
-    setStartY(e.touches[0].clientY);
-    setIsScrolling(true);
+    setStartX(e.touches[0].clientX - contentRef.current!.offsetLeft);
+    setScrollLeft(contentRef.current!.scrollLeft);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isScrolling) return;
-
-    const deltaX = e.touches[0].clientX - startX;
-    const deltaY = e.touches[0].clientY - startY;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      e.preventDefault();
-      contentRef.current!.scrollLeft -= deltaX;
-    }
-
-    setStartX(e.touches[0].clientX);
-    setStartY(e.touches[0].clientY);
-  };
-
-  const handleTouchEnd = () => {
-    setIsScrolling(false);
+    e.preventDefault();
+    const x = e.touches[0].clientX - contentRef.current!.offsetLeft;
+    const walk = (x - startX) * 2;
+    contentRef.current!.scrollLeft = scrollLeft - walk;
   };
 
   return (
@@ -94,7 +96,6 @@ const HorizontalScroll: React.FC = () => {
         ref={contentRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         <Content>
           {/* Content 1 */}
